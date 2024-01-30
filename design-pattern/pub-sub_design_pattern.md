@@ -34,6 +34,14 @@ Pub/Sub pattern consists of the following components:
 3. High Scalability
     - Allow any number of publisher to communicate with any number of subscriber.
 
+## Disadvantages of pub/sub
+1. Complexity
+    - Introduces additional complexity. Managing topics, subscriptions, and message routing requires careful design and maintenance
+2. Potential for Message Loss
+    - Messages may be lost. It also depends on the message brokers and how they were implemented
+3. Overhead
+    -  Introduce overhead in terms of message routing, serialization, and network communication
+
 
 ## When to use pub/sub
 
@@ -49,6 +57,14 @@ Pub/Sub pattern consists of the following components:
 3. Not suitable for media streamming
 4. Synchronous communication
 
+
+## Popular Frameworks/Technologies for Pub/Sub
+|  |  |
+| ----------- | ----------- |
+| **Apache Kafka** | <img src="images/apache-kafka.jpg" width="200px"> |
+| **Apache Pulsar**   | <img src="images/apache-pulser.png" width="200px"> |
+|  **RabbitMQ** | <img src="images/rabbitmq.png" width="200px"> |
+| **Redis Pub/Sub** | <img src="images/redis.png" width="200px"> |
 
 <!-- Notes:
 1. Distributed system will not have permenant connection between two system
