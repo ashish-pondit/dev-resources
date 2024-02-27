@@ -2,13 +2,14 @@
 ![](./images/exception_handling.jpeg)
 
 # Contents
-1. [Introduction]()
-2. [Types of Exceptions]()
-3. [Exception Handling Mechanisms]()
-4. [Common Exception Classes]()
-5. [Best Practices for Exception Handling]()
-6. [Custom Exceptions]()
-7. [Conclusion]()
+1. [Introduction](#introduction)
+2. [Exception Handling Mechanisms](#exception-handling-mechanisms)
+3. [Java Exception Hierarchy](#java-exception-hierarchy)
+4. [Types of Exceptions](#types-of-exceptions)
+5. [Exception Declaration and Throwing](#exception-declaration-and-throwing)
+6. [Common Exception Classes](#common-exception-classes)
+7. [User Defined Exception](#user-defined-exception)
+8. [Best Practices for Exception Handling](#best-practices-for-exception-handling-incomplete-missing-example-58)
 <!-- 8. [Bonus]() -->
 
 # Introduction
@@ -215,7 +216,7 @@ public int stringToNumber(String numberString) throws NumberFormatException {
     }
     ```
 
-# Exception Information
+## Exception Information
 > Inside the catch block we can get information about the exception
 
 These methods can be used to get information from an exception
@@ -254,13 +255,13 @@ We can use custom exception to our need.
 
 - Or if we want to write an `Unchecked` exception then we can extend `RuntimeException`
 
-```java
-public class MyUncheckedException extends RuntimeException {
-    public MyUncheckedException(String message){
-        super(message);
+    ```java
+    public class MyUncheckedException extends RuntimeException {
+        public MyUncheckedException(String message){
+            super(message);
+        }
     }
-}
-```
+    ```
 
 # Best Practices for Exception Handling (Incomplete: missing example) [[5]](#references)[[8]](#references):
 
