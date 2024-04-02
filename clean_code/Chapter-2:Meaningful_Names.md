@@ -174,3 +174,109 @@ Pick one word for one abstract concept and stick with it. For instance, it's con
 Avoid using the same word for two purposes. 
 For example: an `add` method. As long as the parameter lists and return values of the various `add` methods are semantically equivalent, all is well.
 However one might decide to use the word `add` for "consistency" when he or she is not in fact adding in the same sense. Let's say we have many classes were `add` will create a new value by adding or concatenating two existing values. Now let's say we are writing a newclass that has a method that puts its single parameter into a collection. Should we call this method `add`? We should name it `insert` or `append`.
+
+## Use Solution Domain Names
+Remember that the people who read your code will be programmers. So go ahead and use computer science terms, algorithm names, pattern names, math terms and so forth. It is not wise to draw every name from the problem domain. Doing so the programmers may have to run back and forth to the customer asking what every name means.
+
+For example the name `AccountVisitor` means a great deal to a programmer who is familiar with the `Visitor` pattern. 
+
+
+## Use Problem Domain Names
+When there is not "programmer-eese" for what you're doing, use the name from the problem domain. At least the programmer who maintains your code can ask a domain expert.
+
+## Add Meaningful Context
+There Area few names which are meaningful in and of themselves but most are not. Instead, you need to place names in context for your reader by enclosing them in well-named classes, functions, or namespaces. When all else fails, then prefixing the name may be necessary as a last resort.
+
+For example, consider the variables `firstName`, `lastName`, `street`, `hourseNumber`, `city`, `state` and `zipcode`. Taken together it's pretty clear that they form an address. But what if you saw the `state` variable being used alone in a method? Then you might have second thought.
+
+You can add context by using prefixex: `addrFirstName`, `addrLastName`, `addrState` and so on. At least the readers will understand that these variables are part of a larger structure(Address). 
+A better solution is to create a class named `Address`.
+
+Now consider another example:
+
+**Poor ❌**
+```java
+private void printGuessStatistics(char candidate, int count) {
+    String number;
+    String verb;
+    String pluralModifier;
+    if (count == 0) {
+        number = "no";
+        verb = "are";
+        pluralModifier = "s";
+    } else if (count == 1) {
+        number = "1";
+        verb = "is";
+        pluralModifier = "";
+    } else {
+        number = Integer.toString(count);
+        verb = "are";
+        pluralModifier = "s";
+    }
+
+    String guessMessage = String.format(
+        "There %s %s %s%s", verb, number, candidate, pluralModifier
+    );
+    print(guessMessage);
+}
+```
+
+The function is bit too long and the variables are used throughout. 
+
+**Good ✅**
+```java
+public class GuessStatisticsMessage{
+    private String number;
+    private String verb;
+    private String pluralModifier;
+
+    public String make(char candidate, int count) {
+        createPluralDependentMessageParts(count);
+        return String.format(
+            "There %s %s %s%s",
+            verb, number, candidate, pluralModifier
+        );
+    }
+
+    private void createPluralDependentMessageParts(int count) {
+        if (count == 0) {
+            thereAreNoLetters();
+        } else if (count == 1) {
+            thereIsOneLetter();
+        } else {
+            thereAreManyLetters(count);
+        }
+    }
+
+    private void thereAreManyLetters(int count) {
+        number = Integer.toString(count);
+        verb = "are";
+        pluralModifier = "s";
+    }
+
+    private void thereIsOneLetter() {
+        number = "1";
+        verb = "is";
+        pluralModifier = "";
+    }
+
+    private void thereAreNoLetters() {
+        number = "no";
+        verb = "are";
+        pluralModifier = "s";
+    }
+}
+```
+The previous example is abit too long and the variables are used throughout. We split the function into smaller pieces and created a `GuessStatsticMessage` class. This provides a clear context for the three variables.
+
+## Dont't Add Gratious Context
+
+In an imaginary application called "Gas Station Deluxe," it is a bad idea to prefix every classwith `GSD`. 
+Why this is bad?
+- You are working against your tools here. Suppose you type `G` and press completion key and you will see a log list of suggestions because of the prefix you used.
+- Suppose you have a `MailingAddress` class in `GSD`s accounting module and you named it `GSDMailingAddress`. Later, you need a mailing address for your customer contact application. Do you use `GSDAccountAddress`? It does not sound right. Shorter namesare generally better than  longer ones.
+
+## Final Words
+- The hardest thing about choosing good names is that it requires good descriptive skills and ashared cultural background.
+- People are also afraid of renaming things for fear that some other developers will object. mostt of the time we don't really memorize the names of classes and methods. we use the modern tools to deal with details like that.
+- Follows some of these rules and see wheather you don't imporve the readability of your code.
