@@ -62,7 +62,7 @@
     If you can't spot the difference between two variables that is excatly my point. Name a variable in a way that it does not create confusion.
 
 ## Make Meaningful Distinctions
-- Sometimes you can't use the same name to refer to two different things in the same scope, you might be tempted to change one name in anarbitrary way. Sometimes this is done by mispellingone name.
+- Sometimes you can't use the same name to refer to two different things in the same scope, you might be tempted to change one name in anarbitrary way. Sometimes this is done by mispelling one name.
 - It is not sufficient to add number series or noise words, even though the compiler is satisfied. If names must be different then they should also mean something different.
 
     **Wrong ❌**
@@ -132,7 +132,7 @@ for (int j=0; j < NUMBER_OF_TASKS; j++) {
 ```
 
 ## Avoid Encodings
-Encoding type or scope information into names simply adds an extraburden of deciphering.
+Encoding type or scope information into names simply adds an extra burden of deciphering.
 
 ## Member Prefixes
 You don't need to prefix member variables `m_` anymore.Your classes and functions sould be small enough that you don't need them. Your IDE should support highlighting variables vs functions.
@@ -146,13 +146,14 @@ Readers shouldn't have to mentally translate your names into other names they al
 This is a problem with single-letter variable names. Certainly a loop counter names `i` `j` or `k` if its scope is very small. Single letter names for loop counters are traditional. However, in most other contexts a single-letter  name is a poor choice.
 
 ## Class Names
-Classes and Objects should have noud or noun phrase names like `Customer`, `WikiPage`, `Account`, and `AddressParser`.
+Classes and Objects should have noun or noun phrase names like `Customer`, `WikiPage`, `Account`, and `AddressParser`.
 
 
 ## Method Names
 - Methods should have verb or verb phrase names like `postPayment`, `deletePage`, or `save`. Accessors, mutators, and predicates should be named for their value and prefixed with `get`, `set` and `is` according to javabean standard.
 
 - When constructors are overloaded, use static factory methods with names that describe the arguments.
+
     **Wrong ❌**
     ```java
     Complex fulcrumPoint = new Complex(23.0);
