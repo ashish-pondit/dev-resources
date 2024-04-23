@@ -52,6 +52,7 @@ So message queue solves these problems and do much more.
 ## Temporary resources
 1. [System Design - GeeksforGeeks](https://www.geeksforgeeks.org/message-queues-system-design/)
 2. [How Message Queues Work in Distributed Systems - freeCodeCamp](https://www.freecodecamp.org/news/message-queues-in-distributed-systesms/)
+3. [Messsage Broker vs Message Queue](https://www.svix.com/resources/faq/message-broker-vs-message-queue/)
 
 
 
