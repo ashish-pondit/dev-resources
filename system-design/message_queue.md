@@ -49,11 +49,27 @@ So message queue solves these problems and do much more.
 ![Message Queue Image](./images/message%20queue.png)
 
 
+
+
+## Example of Message Queue
+1. RabbitMQ
+2. Apache Kafka
+3. ActiveMQ
+4. Amazon Simple Queue Service
+5. IBM MQ
+
+## Message Queue Protocol
+1. IBM WebSphere MQ (proprietary)
+2. Apache kafka (Open source)
+3. AMQP (Open source)
+
 ## Temporary resources
 1. [System Design - GeeksforGeeks](https://www.geeksforgeeks.org/message-queues-system-design/)
 2. [How Message Queues Work in Distributed Systems - freeCodeCamp](https://www.freecodecamp.org/news/message-queues-in-distributed-systesms/)
 3. [Messsage Broker vs Message Queue](https://www.svix.com/resources/faq/message-broker-vs-message-queue/)
 4. [What is RabbitMQ - IBM Technology Youtube](https://www.youtube.com/watch?v=7rkeORD4jSw)
+5. [RabbitMQ Tutorial - Message Queues and Distributed Systems - Amigoscode](https://www.youtube.com/watch?v=nFxjaVmFj5E&pp=ygUabWVzc2FnZSBicm9rZXIgYW1pZ29zIGNvZGU%3D)
+6. 
 
 
 
