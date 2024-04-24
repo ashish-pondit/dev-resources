@@ -69,7 +69,7 @@ So message queue solves these problems and do much more.
 3. [Messsage Broker vs Message Queue](https://www.svix.com/resources/faq/message-broker-vs-message-queue/)
 4. [What is RabbitMQ - IBM Technology Youtube](https://www.youtube.com/watch?v=7rkeORD4jSw)
 5. [RabbitMQ Tutorial - Message Queues and Distributed Systems - Amigoscode](https://www.youtube.com/watch?v=nFxjaVmFj5E&pp=ygUabWVzc2FnZSBicm9rZXIgYW1pZ29zIGNvZGU%3D)
-6. 
+6. [Kafka vs. RabbitMQ  - Jordan has no life](https://www.youtube.com/watch?v=_5mu7lZz5X4)
 
 
 
