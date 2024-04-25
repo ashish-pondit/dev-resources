@@ -11,6 +11,8 @@
    
    Covers beginner to advance level system design topics.
 
+2. [System Design Primer - Github](https://github.com/donnemartin/system-design-primer)
+
 
 ## References
 1. [What is Systems Design – GeeksforGeeks](https://www.geeksforgeeks.org/what-is-system-design-learn-system-design/)
