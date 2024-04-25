@@ -80,10 +80,32 @@ So message queue solves these problems and do much more.
 1. MQTT (Message Queuing Telemetry Transport)
 2. AMQP (Advanced Message Queuing Protocol)
 
-## AMQP (`A`dvanced `M`essage `Q`ueuing `P`rotocol)
+## AMQP (`A`dvanced `M`essage `Q`ueuing `P`rotocol) [[4]](#references)
 >AMQP is created as an open standard protocol that allows messaging interoperability between systems, regardless of message broker vendor or platform used
 
 ![AMQP basic architecture](./images/amqp_basic_figure.svg)
+
+#### Brokers and Their Role
+**Message broker** receives message from **publishers** and route them to the **consumers**. Since AMQP is a network protocol the message broker, publishers and consumers all can be on different machine.
+
+### Overview of AMQP (0-9-1)
+1. Messages are published to the **exchanges**. Exchange can compared with post office because they are responsible for the routing.
+   1. Publisher can specify various message attributes when publishing a message. Broker can use some of the meta-data, however rest of it is completely opaque to the broker.
+
+2. Exchange **routes/distribure** message copies to queues using rules called bindings.
+
+3. Now the **broker** either deliver messages to consumers subscribed to the queus or consumers fetch/pull messages from queues on demand.
+4. Sometimes due to network issue or the application may fail to process messages. So AMQP 0-9-1 model has a notion of **message acknowledgements**. When a message is delivered to a consumer the consumer **notifies the broker**, either automatically or as soon as the application developer chooses to do so. 
+5. When message acknowledgements are in use, a broker will only completely remove a message from a queue when it receives a notification for that message (or a group of messages)
+6. In certain situation, for example when a message can not be routed, messages may be returned to publishers, dropped or placed into a **dead letter queue**. 
+   
+   Dead Letter Queues (DLQs) are a mechanism for handling messages that cannot be processed successfully. This includes 
+   1. Messages with error in their content or format
+   2. Messages that exceed their time-to-live(TTL) or delivery attempts.
+   3. Messages that can not be delivered to any consumer.
+
+Queues, exchanges and bindings are collectively referred to as **AMQP entities**.
+
 
 
 
