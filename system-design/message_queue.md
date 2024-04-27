@@ -104,10 +104,39 @@ So message queue solves these problems and do much more.
    2. Messages that exceed their time-to-live(TTL) or delivery attempts.
    3. Messages that can not be delivered to any consumer.
 
+
+#### AMQP Entities
 Queues, exchanges and bindings are collectively referred to as **AMQP entities**.
 
+AMQP 0-9-1 is a programmable protocol in the sense that AMQP 0-9-1 entities and routing schemes are primarily defined by applications themselves, not a broker administrator.
 
 
+### Exchanges and Exchange Types
+Exchanges are AMQP 0-9-1 entities where messages are sent to. Exchanges take a message and route it into zero or more queues.
+
+AMQP 0-9-1 brokers provide four exchange types:
+
+<table><thead><th>Exchange type</th><th>Default pre-declared names</th></thead><tr><td>Direct exchange</td><td>(Empty string) and amq.direct</td></tr><tr><td>Fanout exchange</td><td>amq.fanout</td></tr><tr><td>Topic exchange</td><td>amq.topic</td></tr><tr><td>Headers exchange</td><td>amq.match (and amq.headers in RabbitMQ)</td></tr></table>
+
+Besides the exchange type, exchanges are declared with a number of attributes:
+
+- Name
+- Durability (exchanges survive broker restart)
+- Auto-delete (exchange is deleted when last queue is unbound from it)
+- Arguments (optional, used by plugins and broker-specific features)
+
+#### Direct Exchange
+A direct exchange delivers messages to queues based on the message **routing key**. A direct exchange is ideal for the **unicast** routing of messages. They can be used for **multicast** routing as well.
+![Direct exchange type AMQP](./images/direct_exchange_type.png)
+
+1. A queue binds to the exchange with a routing key K
+2. When a new message with routing key R arrives at the direct exchange, the exchange routes it to the queue if K = R
+3. If multiple queues are bound to a direct exchange with the same routing key K, the exchange will route the message to all queues for which K = R
+
+#### Fanout Exchange
+A fanout exchange routes messages to all of the queues that are bound to it and the routing key is **ignored**. Ideal for the **broadcast** routing of messages.
+
+![Fanout exchange type](./images/fanout_exchange_type.png)
 
 ## Example of Message Queue
 1. RabbitMQ
