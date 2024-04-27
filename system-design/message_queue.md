@@ -138,6 +138,18 @@ A fanout exchange routes messages to all of the queues that are bound to it and 
 
 ![Fanout exchange type](./images/fanout_exchange_type.png)
 
+
+#### Topic Exchange
+Topic exchanges route messages to one or many queues based on matching between a message routing key and the **pattern** that was used to bind a queue to an exchange. So we can apply **partial match** between message routing key and the binding key. Topic exchanges are commonly used for the **multicast** routing of messages.
+
+![Topic exhange type](./images/topic_exchange_type.png)
+
+#### Headers Exchange
+A headers exchange is designed for routing on **multiple** attributes that are more easily expressed as message headers than a routing key. Headers exchanges **ignore** the routing key attribute. Instead, the attributes used for routing are taken from the headers attribute. A message is considered matching if the value of the **header** equals the **value** specified upon binding.
+
+#### Default Exchange
+The default exchange is a direct exchange with no name (empty string) pre-declared by the broker. It has one special property that makes it very useful for simple applications: every queue that is created is automatically bound to it with a routing key which is the same as the queue name.
+
 ## Example of Message Queue
 1. RabbitMQ
 2. Apache Kafka
