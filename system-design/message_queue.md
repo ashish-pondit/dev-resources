@@ -4,11 +4,29 @@
 > A message queue is a form of asynchronous service-to-service communication used in serverless and microservices architectures. Messages are stored on the queue until they are processed and deleted. Each message is processed only once, by a single consumer. [[1]](#references)
 
 ## Contents
-1. [What is message queue?]()
-2. [Why we need message queue?]()
-3. [How a message queue works?]()
-4. [Types of message queue]()
-5. [Real world example of message queue]()
+- [Message Queue](#message-queue)
+  - [Contents](#contents)
+  - [What is a message queues?](#what-is-a-message-queues)
+  - [Why do we need message queue?](#why-do-we-need-message-queue)
+  - [Benefits of Message Queues \[2\]](#benefits-of-message-queues-2)
+  - [Types of Message Queue](#types-of-message-queue)
+    - [Message Serialization](#message-serialization)
+  - [How a message queue works?](#how-a-message-queue-works)
+    - [Types of communication](#types-of-communication)
+    - [Common Messaging Protocols](#common-messaging-protocols)
+  - [AMQP (`A`dvanced `M`essage `Q`ueuing `P`rotocol) \[4\]](#amqp-advanced-message-queuing-protocol-4)
+      - [Brokers and Their Role](#brokers-and-their-role)
+    - [Overview of AMQP (0-9-1)](#overview-of-amqp-0-9-1)
+      - [AMQP Entities](#amqp-entities)
+    - [Exchanges and Exchange Types](#exchanges-and-exchange-types)
+      - [Direct Exchange](#direct-exchange)
+      - [Fanout Exchange](#fanout-exchange)
+      - [Topic Exchange](#topic-exchange)
+      - [Headers Exchange](#headers-exchange)
+      - [Default Exchange](#default-exchange)
+  - [Example of Message Queue](#example-of-message-queue)
+  - [References](#references)
+  - [Additional resources](#additional-resources)
 
 
 ## What is a message queues?
@@ -157,19 +175,17 @@ The default exchange is a direct exchange with no name (empty string) pre-declar
 4. Amazon Simple Queue Service
 5. IBM MQ
 
-## Temporary resources
-1. [System Design - GeeksforGeeks](https://www.geeksforgeeks.org/message-queues-system-design/)
-2. [How Message Queues Work in Distributed Systems - freeCodeCamp](https://www.freecodecamp.org/news/message-queues-in-distributed-systesms/)
-3. [Messsage Broker vs Message Queue](https://www.svix.com/resources/faq/message-broker-vs-message-queue/)
-4. [What is RabbitMQ - IBM Technology Youtube](https://www.youtube.com/watch?v=7rkeORD4jSw)
-5. [RabbitMQ Tutorial - Message Queues and Distributed Systems - Amigoscode](https://www.youtube.com/watch?v=nFxjaVmFj5E&pp=ygUabWVzc2FnZSBicm9rZXIgYW1pZ29zIGNvZGU%3D)
-6. [Kafka vs. RabbitMQ  - Jordan has no life](https://www.youtube.com/watch?v=_5mu7lZz5X4)
-
-
-
 ## References
 1. [What is a Message Queue? - AWS](https://aws.amazon.com/message-queue/)
 2. [Message Queue - BYTEBYTEGO](https://blog.bytebytego.com/p/why-do-we-need-a-message-queue)
 3. [System Design - GeeksforGeeks](https://www.geeksforgeeks.org/message-queues-system-design/)
 4. [AMQP 0-9-1 - RabbitMQ](https://www.rabbitmq.com/tutorials/amqp-concepts)
 5. [What is AMQP - CloudAMQP](https://www.cloudamqp.com/blog/what-is-amqp-and-why-is-it-used-in-rabbitmq.html)
+
+## Additional resources
+1. [System Design - GeeksforGeeks](https://www.geeksforgeeks.org/message-queues-system-design/)
+2. [How Message Queues Work in Distributed Systems - freeCodeCamp](https://www.freecodecamp.org/news/message-queues-in-distributed-systesms/)
+3. [Messsage Broker vs Message Queue](https://www.svix.com/resources/faq/message-broker-vs-message-queue/)
+4. [What is RabbitMQ - IBM Technology Youtube](https://www.youtube.com/watch?v=7rkeORD4jSw)
+5. [RabbitMQ Tutorial - Message Queues and Distributed Systems - Amigoscode](https://www.youtube.com/watch?v=nFxjaVmFj5E&pp=ygUabWVzc2FnZSBicm9rZXIgYW1pZ29zIGNvZGU%3D)
+6. [Kafka vs. RabbitMQ  - Jordan has no life](https://www.youtube.com/watch?v=_5mu7lZz5X4)
