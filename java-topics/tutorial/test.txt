@@ -1,0 +1,29 @@
+Key Concepts of Java I/O Streams:
+Stream: A stream is a sequence of data. In Java, streams are used to represent data transfer, either for input (reading) or output (writing).
+
+Types of Streams:
+
+Input Streams: Used for reading data.
+Output Streams: Used for writing data.
+Byte Streams vs. Character Streams:
+
+Byte Streams: Handle raw binary data (e.g., images, files). Classes for byte streams include:
+InputStream (e.g., FileInputStream)
+OutputStream (e.g., FileOutputStream)
+Character Streams: Handle text data (e.g., .txt files). Classes for character streams include:
+Reader (e.g., FileReader)
+Writer (e.g., FileWriter)
+Basic Classes in java.io:
+
+InputStream: Abstract superclass for all byte input streams. Examples:
+FileInputStream: Reads bytes from a file.
+BufferedInputStream: Buffers input for efficient reading.
+OutputStream: Abstract superclass for all byte output streams. Examples:
+FileOutputStream: Writes bytes to a file.
+BufferedOutputStream: Buffers output for efficient writing.
+Reader: Abstract superclass for all character input streams. Examples:
+FileReader: Reads characters from a file.
+BufferedReader: Buffers input for efficient character reading.
+Writer: Abstract superclass for all character output streams. Examples:
+FileWriter: Writes characters to a file.
+BufferedWriter: Buffers output for efficient character writing.
