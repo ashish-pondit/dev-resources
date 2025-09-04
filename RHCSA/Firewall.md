@@ -1,9 +1,5 @@
 # Linux Networking, Firewall & Time Management Cheat Sheet
 
-This document organizes key commands and explanations from our chat into a structured reference. All examples use raw Markdown formatting for easy inclusion in `.md` files.
-
----
-
 ## 🔹 Network Interfaces
 
 * **List network interfaces:**
