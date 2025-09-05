@@ -129,49 +129,83 @@ sudo ip route del 192.168.20.50
 sudo ip route add default via 192.168.10.1 dev eth0
 sudo ip route del default
 ```
+These routing are not permanent. It is only active for the current session.
 
-### Permanent Routes
+## Permanent Routes
+### Permanent Routes Cheat Sheet
 
-* **RHEL / CentOS / Fedora:**
+**1. Check current active connections**
 
-  * Add routes to `/etc/sysconfig/network-scripts/route-<interface>`
+```bash
+sudo nmcli connection show
+```
 
-  ```
-  192.168.20.0/24 via 192.168.10.1 dev eth0
-  default via 192.168.10.1 dev eth0
-  ```
+* Lists all network connections managed by NetworkManager.
 
-  * Restart:
+**2. Add a permanent route to a connection**
 
-  ```bash
-  sudo systemctl restart network
-  ```
+```bash
+sudo nmcli connection modify [nic] +ipv4.routes "192.168.0.0/24 10.0.0.100"
+```
 
-* **Ubuntu / Debian (Netplan):**
+* `[nic]` is a placeholder for your **network interface name** (e.g., `eth0`, `enp3s0`).
+* Example:
 
-  ```yaml
-  network:
-    version: 2
-    ethernets:
-      eth0:
-        addresses: [192.168.10.100/24]
-        gateway4: 192.168.10.1
-        routes:
-          - to: 192.168.20.0/24
-            via: 192.168.10.1
-  ```
+```bash
+sudo nmcli connection modify eth0 +ipv4.routes "192.168.0.0/24 10.0.0.100"
+```
 
-  ```bash
-  sudo netplan apply
-  ```
+* Meaning: to reach network `192.168.0.0/24`, route traffic via `10.0.0.100`.
 
-### Debug
+**3. Apply changes immediately (no reboot needed)**
+
+```bash
+sudo nmcli device reapply [nic]
+```
+
+* Example:
+
+```bash
+sudo nmcli device reapply eth0
+```
+
+**4. Verify the route**
 
 ```bash
 ip route show
-ping 192.168.20.1
-traceroute 192.168.20.1
 ```
+
+**5. Remove a permanent route**
+
+```bash
+sudo nmcli connection modify [nic] -ipv4.routes "192.168.0.0/24 10.0.0.100"
+```
+
+* Example:
+
+```bash
+sudo nmcli connection modify eth0 -ipv4.routes "192.168.0.0/24 10.0.0.100"
+```
+
+---
+
+**Notes:**
+
+* `[nic]` is generic and should be replaced with your actual network interface.
+* Use `+` to add a route and `-` to remove.
+* Changes are persistent and stored in NetworkManager configuration.
+
+---
+
+**Related topics for deeper understanding:**
+
+1. How Linux routing table works
+2. Difference between static and dynamic routing
+3. ip route vs route command
+4. Network namespaces and routing isolation
+5. Advanced route options: metrics, default routes, policy routing
+
+
 
 ---
 
