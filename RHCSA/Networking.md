@@ -26,6 +26,7 @@ nmcli                         # Command-line network manager
 sudo nmcli device reapply ens33   # Reapply config for interface
 sudo systemctl status NetworkManager.service  # Check service status
 ```
+
 ### 📡 Connections (Ports & Sockets)
 
 Using `ss` (modern replacement for netstat)
@@ -41,10 +42,6 @@ netstat -anp           # Show all connections + processes
 sudo netstat -plnt     # Show listening TCP ports + process names
 ```
 
-### ⏱ Time Sync
-```bash
-systemctl status chronyd.service  # Check NTP time sync status
-```
 ### 📂 /etc/hosts
 
 - Purpose: Maps hostnames to IP addresses (local DNS override).
@@ -114,3 +111,73 @@ webserver01
     ```bash
     ip a show dev eth1
     ```
+
+
+# 📝 nmcli Cheat Sheet
+
+## 🔹 View Connections
+
+* `nmcli connection show` → List all saved connections
+* `nmcli connection show --active` → Show only active connections
+* `nmcli device status` → Show network interfaces and status
+
+---
+
+## 🔹 Manage Connections
+
+* `sudo nmcli connection up <connection-name>` → Bring connection up
+* `sudo nmcli connection down <connection-name>` → Bring connection down
+* `sudo nmcli connection delete <connection-name>` → Remove a saved connection
+
+---
+
+## 🔹 Autoconnect Settings
+
+* `sudo nmcli connection modify <connection-name> autoconnect yes` → Enable autoconnect
+* `sudo nmcli connection modify <connection-name> autoconnect no` → Disable autoconnect
+
+---
+
+## 🔹 Create Connections
+
+* `sudo nmcli connection add type ethernet ifname eth0` → Create Ethernet connection
+* `sudo nmcli connection add type wifi ifname wlan0 ssid <SSID>` → Create Wi-Fi connection
+
+---
+
+## 🔹 Wi-Fi Specific Commands
+
+* `nmcli device wifi list` → Show available Wi-Fi networks
+* `nmcli device wifi connect <SSID> password <password>` → Connect to Wi-Fi
+* `nmcli device disconnect wlan0` → Disconnect Wi-Fi interface
+
+---
+
+## 🔹 Practice Exercise
+
+👉 **Scenario:** You want your laptop to always connect automatically to your office Wi-Fi (`Office-WiFi`) and remove an old connection `Home-WiFi`. Then verify the active connections.
+
+### Step 1 – Enable autoconnect for Office-WiFi
+
+```bash
+sudo nmcli connection modify Office-WiFi autoconnect yes
+```
+
+### Step 2 – Delete the old Home-WiFi connection
+
+```bash
+sudo nmcli connection delete Home-WiFi
+```
+
+### Step 3 – Verify active connections
+
+```bash
+nmcli connection show --active
+```
+
+✅ **Expected Output (example):**
+
+```
+NAME          UUID                                  TYPE      DEVICE
+Office-WiFi   a1b2c3d4-1234-5678-9abc-d1234e5678f9  wifi      wlan0
+```
