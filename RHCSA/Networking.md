@@ -1,4 +1,88 @@
 # Networking cheat sheet
+### Short Definitions
+
+**DNS (Domain Name System):** Translates human-friendly domain names (like `example.com`) into IP addresses that computers use to locate servers.
+
+**Router:** A device that forwards data packets between different networks. It connects your local network to other networks (like the Internet).
+
+**Gateway:** A device that acts as an entry/exit point for a network, usually connecting a local network to the Internet. In many home setups, the router is also the gateway.
+
+---
+
+### Step-by-Step Process When Accessing a Domain
+
+1. **You type a URL in the browser**
+
+   * Example: `http://example.com`
+
+2. **DNS Resolution**
+
+   * Browser checks local DNS cache.
+   * If not found, request goes to your configured DNS server (usually provided by ISP or Google DNS).
+   * DNS server resolves `example.com` to an IP address (e.g., `93.184.216.34`).
+
+3. **Packet Preparation**
+
+   * Your device prepares an IP packet destined for the resolved IP.
+   * Packet encapsulates data (HTTP request) inside TCP, IP headers.
+
+4. **Routing Through Gateway**
+
+   * Packet is sent to your local gateway (usually your router).
+   * Router examines the destination IP and forwards the packet towards the Internet.
+
+5. **Traversal Across Routers**
+
+   * Packet may pass through multiple routers across ISPs and backbone networks.
+   * Each router examines the destination IP and forwards accordingly.
+
+6. **Arrival at Destination Server**
+
+   * Packet reaches the server hosting `example.com`.
+   * Server processes HTTP request and sends a response back.
+
+7. **Response Back to Your Device**
+
+   * Response packets travel back through routers to your gateway.
+   * Gateway forwards to your local device.
+
+8. **Browser Receives Response**
+
+   * Browser receives the HTTP response and renders the page.
+
+---
+
+### Diagram
+
+```
++-----------+         +-----------+         +------------+         +-----------+
+| Your      |         | Gateway/  |         | ISP Router |         | Web       |
+| Device    | ------> | Router    | ----->  | Backbone   | ----->  | Server    |
+| (Browser) |         | (Gateway) |         | Routers    |         | (example) |
++-----------+         +-----------+         +------------+         +-----------+
+       |                     |                    |                      |
+       | DNS Request          | Routing            | Routing              | Response
+       |-------------------->|------------------->|--------------------->|
+       | DNS Response         |                    |                      |
+       |<--------------------|<------------------|<---------------------|
+```
+
+---
+
+This shows how DNS, gateway, and routers interact to deliver web content.
+
+**Related in-depth topics you could explore next:**
+
+1. DNS internals (recursive vs iterative queries, caching, root servers)
+2. TCP/IP packet structure and headers
+3. Routing tables and how routers decide paths
+4. NAT (Network Address Translation) at the gateway
+5. HTTP request/response flow and TCP handshake
+
+Which of these topics do you want to dive into first?
+
+
+
 
 ### 🔍 Interfaces & IPs
 ```bash
