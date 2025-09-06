@@ -205,3 +205,78 @@ This document explains how to manage **local groups and group membership** in Re
 2. How Linux evaluates permissions with multiple group memberships.
 3. Best practices for group-based permission management in enterprises.
 
+
+
+# 🔑 Managing Access to Root Account (Red Hat Linux)
+
+This document explains how to manage access to the **root account**, including using `sudo`, switching users, locking/unlocking root, and related commands.
+
+---
+
+## 🔹 What is `sudo`?
+
+* `sudo` (superuser do) allows permitted users to run commands as **root** (or another user, with `-u`).
+* When you run a command with `sudo`, the system:
+
+  1. Checks if your user is in the `sudoers` configuration (`/etc/sudoers`).
+  2. Prompts for your **own password** (not root’s) if required.
+  3. Executes the command with **root privileges**.
+* This is safer than logging in directly as root because it limits exposure and allows auditing.
+
+---
+
+## 🔹 Becoming Root via `sudo`
+
+* `sudo --login` or `sudo -i`
+  ➝ Opens a login shell as root (simulates full root login).
+
+  * Use `logout` (or `exit`) to return to normal user.
+    ⚠️ Requires the user to already have **sudo privileges**.
+
+---
+
+## 🔹 Switching to Root with `su`
+
+* `su -` or `su -l` or `su --login`
+  ➝ Switches to the root account if you know the **root password**.
+
+  * Provides a full login environment for root.
+
+### Note:
+
+* On some systems, the **root account is locked** by default.
+
+  * In this case, you **cannot use `su -`** (because it requires the root password).
+  * But you can still use `sudo -i` if your account has sudo privileges.
+
+---
+
+## 🔹 Managing Root Account Password
+
+* `sudo passwd root`
+  ➝ Assigns a password to the root account (if it never had one). Enables password-based root login.
+
+* `sudo passwd --unlock root` or `sudo passwd -u root`
+  ➝ Unlocks the root account.
+
+* `sudo passwd --lock root` or `sudo passwd -l root`
+  ➝ Locks the root account (disables password-based login).
+
+---
+
+## 🔹 Remote Access to Root
+
+* If SSH is set up and root has a password, the root account can be accessed via SSH (if `PermitRootLogin` is enabled in `/etc/ssh/sshd_config`).
+* Best practice: **disable direct root SSH login** and use `sudo` instead.
+
+---
+
+## ✅ Summary
+
+* Use `sudo` for safer, auditable root privilege management.
+* `sudo -i` → root shell using your own credentials.
+* `su -` → root shell requiring root’s password.
+* Root account can be locked/unlocked or assigned a password with `passwd`.
+* Direct root SSH login is possible but discouraged.
+
+---
