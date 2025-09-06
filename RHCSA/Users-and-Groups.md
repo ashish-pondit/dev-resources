@@ -199,11 +199,6 @@ This document explains how to manage **local groups and group membership** in Re
 
 ---
 
-👉 Next deep dive options:
-
-1. Internal structure of `/etc/group` and `/etc/gshadow`.
-2. How Linux evaluates permissions with multiple group memberships.
-3. Best practices for group-based permission management in enterprises.
 
 
 
@@ -280,3 +275,4 @@ This document explains how to manage access to the **root account**, including u
 * Direct root SSH login is possible but discouraged.
 
 ---
+
