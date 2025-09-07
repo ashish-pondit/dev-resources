@@ -276,3 +276,256 @@ This document explains how to manage access to the **root account**, including u
 
 ---
 
+# 🔐 Pluggable Authentication Modules (PAM) in Linux
+
+This document explains PAM in depth: what it is, where its files are located, how it works, common modules, and how control flags combine results.
+
+---
+
+## 🔹 What is PAM?
+
+* **PAM (Pluggable Authentication Modules)** is a framework that provides a flexible, centralized way to manage authentication and authorization.
+* Instead of embedding authentication logic directly into programs (`login`, `sshd`, `sudo`, etc.), these programs delegate to PAM.
+* PAM reads configuration files and runs a **stack of modules** that decide whether the authentication succeeds.
+
+---
+
+## 🔹 Where Are PAM Files Located?
+
+* Configuration files live in:
+
+  ```
+  /etc/pam.d/
+  ```
+* Each service has its own file:
+
+  * `/etc/pam.d/sshd` → rules for SSH logins.
+  * `/etc/pam.d/sudo` → rules for sudo.
+  * `/etc/pam.d/login` → rules for local logins.
+* A common file `/etc/pam.d/system-auth` is often included by others for shared rules.
+
+Example (`/etc/pam.d/login`):
+
+```
+auth    required    pam_securetty.so
+auth    requisite   pam_nologin.so
+auth    include     system-auth
+account required    pam_unix.so
+password include    system-auth
+session required    pam_unix.so
+```
+
+---
+
+## 🔹 PAM Configuration Line Structure
+
+Each PAM rule has this format:
+
+```
+<module-type>   <control-flag>   <module-path>   [options]
+```
+
+* **Module Types**:
+
+  * `auth` → Verifies user identity (passwords, keys).
+  * `account` → Checks if the account is allowed (expiry, access restrictions).
+  * `password` → Handles password updates.
+  * `session` → Sets up/tears down user sessions (limits, logging).
+
+* **Control Flags**:
+
+  * `required` → Must succeed. Failure is remembered, but remaining modules still run.
+  * `requisite` → Must succeed. On failure, authentication stops immediately.
+  * `sufficient` → If successful, authentication succeeds immediately (ignores rest of stack for this type).
+  * `optional` → Success/failure ignored unless it’s the only module for that type.
+  * `include` → Includes rules from another PAM config file.
+
+---
+
+## 🔹 How PAM Works (Step by Step)
+
+1. A service (e.g., `sshd`, `sudo`, `login`) requests authentication.
+2. PAM reads the corresponding config file from `/etc/pam.d/`.
+3. Rules are processed **in order**:
+
+   * Module type determines purpose (auth/account/password/session).
+   * Control flag decides how success/failure affects the outcome.
+   * Module runs the check (password, token, Kerberos, LDAP, etc.).
+4. PAM combines results according to control flags.
+5. Final decision: **grant or deny access**.
+6. If successful, `session` modules apply resource limits, logging, or audit rules.
+
+---
+
+## 🔹 Example Walkthrough
+
+Config file snippet:
+
+```
+auth    sufficient   pam_unix.so
+auth    required     pam_ldap.so
+```
+
+* If password matches local `/etc/shadow` via `pam_unix.so` → success immediately, LDAP check skipped.
+* If local check fails, PAM still calls `pam_ldap.so`. Because it is `required`, failure there denies login.
+
+---
+
+## 🔹 Common PAM Modules
+
+Here are widely used modules and their purposes:
+
+* **pam\_unix.so** → Traditional UNIX authentication using `/etc/passwd` and `/etc/shadow`.
+* **pam\_rootok.so** → Grants access if the user is `root` (UID 0).
+* **pam\_securetty.so** → Restricts root login to secure terminals listed in `/etc/securetty`.
+* **pam\_nologin.so** → Denies login if `/etc/nologin` file exists.
+* **pam\_tally2.so** / **pam\_faillock.so** → Tracks failed login attempts, used to lock accounts after too many failures.
+* **pam\_limits.so** → Enforces limits from `/etc/security/limits.conf` (CPU, memory, processes).
+* **pam\_env.so** → Sets environment variables from `/etc/security/pam_env.conf`.
+* **pam\_wheel.so** → Restricts `su` command usage to members of the `wheel` group.
+* **pam\_sss.so** → Integrates with SSSD for LDAP/Active Directory authentication.
+* **pam\_krb5.so** → Handles Kerberos authentication.
+* **pam\_systemd.so** → Starts a user systemd session.
+
+---
+
+## 🔹 Why PAM Matters
+
+* Provides **modularity**: admins can mix and match authentication methods.
+* Provides **security**: can enforce password policies, 2FA, lockouts.
+* Provides **consistency**: all applications use the same authentication stack.
+
+---
+
+## ✅ Summary
+
+* PAM configs live in `/etc/pam.d/`, each file corresponds to a service.
+* Rules are stacked and processed with control flags (`required`, `sufficient`, etc.).
+* Modules perform the real work: checking passwords, limiting logins, enforcing policies.
+* Misconfiguration can lock out all users, so always edit using `sudo visudo`-like precautions (`authconfig` or distribution tools may help).
+
+---
+
+## 🔹 Where to Find PAM Modules
+
+* PAM configuration files: `/etc/pam.d/`
+* PAM modules: usually stored in `/lib/security/` or `/lib64/security/`
+* List installed modules:
+
+  ```bash
+  ls /lib64/security/ | grep pam_
+  ```
+
+---
+
+## 🔹 Example PAM Configurations
+
+### 1. Requiring Strong Passwords
+
+* File: `/etc/pam.d/system-auth`
+* Add password complexity with `pam_pwquality`:
+
+  ```
+  password   requisite    pam_pwquality.so retry=3 minlen=12 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1
+  ```
+
+  ➝ Enforces minimum length and at least one uppercase, lowercase, digit, and special character.
+
+### 2. Account Lockout After Failed Attempts
+
+* File: `/etc/pam.d/system-auth`
+* Use `pam_faillock`:
+
+  ```
+  auth    required    pam_faillock.so preauth silent deny=5 unlock_time=600
+  auth    [success=1 default=bad] pam_unix.so
+  auth    [default=die] pam_faillock.so authfail
+  account required    pam_faillock.so
+  ```
+
+  ➝ Locks account for 10 minutes after 5 failed attempts.
+
+### 3. Restricting Login Times
+
+* File: `/etc/pam.d/sshd`
+* Use `pam_time`:
+
+  ```
+  account required pam_time.so
+  ```
+
+  * Rules defined in `/etc/security/time.conf`, e.g.:
+
+    ```
+    login ; * ; alice ; !Wk0900-1700
+    ```
+
+    ➝ User `alice` cannot log in outside weekday 9 AM–5 PM.
+
+### 4. Limiting Resources Per User
+
+* File: `/etc/pam.d/common-session`
+* Use `pam_limits`:
+
+  ```
+  session required pam_limits.so
+  ```
+
+  * Rules in `/etc/security/limits.conf`, e.g.:
+
+    ```
+    alice hard nofile 1000
+    ```
+
+    ➝ Limits user `alice` to 1000 open files.
+
+### 5. Two-Factor Authentication (2FA)
+
+* File: `/etc/pam.d/sshd`
+* Use `pam_google_authenticator`:
+
+  ```
+  auth required pam_google_authenticator.so
+  ```
+
+  ➝ Requires OTP code along with password for SSH login.
+
+---
+
+## 🔹 Commonly Used PAM Modules
+
+* **pam\_unix.so** → Standard authentication against `/etc/passwd` & `/etc/shadow`.
+* **pam\_rootok.so** → Allows root to bypass authentication.
+* **pam\_pwquality.so** → Enforces strong password policies.
+* **pam\_faillock.so** → Locks accounts after failed login attempts.
+* **pam\_limits.so** → Enforces resource limits.
+* **pam\_time.so** → Restricts login times.
+* **pam\_listfile.so** → Allows/denies login based on a file list.
+* **pam\_google\_authenticator.so** → Adds OTP-based 2FA.
+
+---
+
+## 🔹 How to Get the List of PAM Modules
+
+* Installed PAM modules:
+
+  ```bash
+  ls /lib64/security/ | grep pam_
+  ```
+* Configuration per service:
+
+  ```bash
+  ls /etc/pam.d/
+  ```
+* Check documentation:
+
+  ```bash
+  man pam_<module>
+  ```
+
+  Example: `man pam_faillock`
+
+---
+
+✅ This shows how PAM modules are used in real-world security hardening.
+
