@@ -244,12 +244,45 @@ sudo semanage user -l
 SELinux ensures even `root` cannot bypass security policy, providing strong isolation and containment.
 
 
-# 📝 SELinux Context & Label Management Cheat Sheet
+# 📝 Cheat Sheet
 
 ## 🔹 Check SELinux Status & Mode
 
 * `getenforce` → Show current SELinux mode (`Enforcing`, `Permissive`, `Disabled`).
 * `sestatus` → Display detailed SELinux status.
+
+---
+
+## 🔹 Changing SELinux Mode
+
+* `setenforce 1` → Switch to **Enforcing** mode (runtime).
+* `setenforce 0` → Switch to **Permissive** mode (runtime).
+* Permanent changes:
+
+  ```bash
+  sudo nano /etc/selinux/config
+  # Change SELINUX=enforcing|permissive|disabled
+  ```
+
+  Then reboot for changes to take effect.
+
+⚠️ Note: You cannot switch to **Disabled** without rebooting.
+
+### Disabling SELinux Completely
+
+1. Edit `/etc/selinux/config` and set:
+
+   ```bash
+   SELINUX=disabled
+   ```
+2. Or add kernel boot parameters in GRUB:
+
+   ```bash
+   selinux=0 enforcing=0
+   ```
+
+   (Edit `/etc/default/grub` and update GRUB with `grub2-mkconfig`).
+3. Reboot to apply.
 
 ---
 
