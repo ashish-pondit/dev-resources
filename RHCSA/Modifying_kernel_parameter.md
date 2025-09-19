@@ -277,10 +277,72 @@ sudo sysctl --system
 
 ---
 
-If you want, I can now:
+# 🔹 Sysctl Commands Cheat Sheet
 
-* produce a shorter printable cheat-sheet (one page), or
-* walk you through the *big exercise* step-by-step with commands you can paste and run, or
-* deep-dive into a specific tunable (for example: `vm.swappiness` or `net.ipv4.tcp_tw_reuse`) and explain the inner workings and performance implications.
+## View Parameters
 
-Which would you like next?
+* Show all parameters:
+
+  ```bash
+  sudo sysctl -a
+  ```
+* Filter (example: vm):
+
+  ```bash
+  sudo sysctl -a | grep '^vm\.'
+  ```
+* Read a single parameter:
+
+  ```bash
+  sudo sysctl vm.swappiness
+  ```
+* Read value only:
+
+  ```bash
+  sudo sysctl -n vm.swappiness
+  ```
+
+## Modify Parameters
+
+* Change value (runtime only):
+
+  ```bash
+  sudo sysctl -w vm.swappiness=10
+  ```
+* Direct write to /proc (runtime only):
+
+  ```bash
+  echo 10 | sudo tee /proc/sys/vm/swappiness
+  ```
+
+## Persistent Configuration
+
+* Create file `/etc/sysctl.d/name.conf`:
+
+  ```ini
+  vm.swappiness = 15
+  ```
+* Apply immediately from that file:
+
+  ```bash
+  sudo sysctl -p /etc/sysctl.d/name.conf
+  ```
+* Apply all configs:
+
+  ```bash
+  sudo sysctl --system
+  ```
+
+## Debug & Explore
+
+* Show kernel mapping:
+
+  ```bash
+  cat /proc/sys/vm/swappiness
+  ```
+* Find conflicts:
+
+  ```bash
+  sudo grep -R "vm.swappiness" /etc/sysctl.d /usr/lib/sysctl.d
+  ```
+
