@@ -139,14 +139,6 @@ During the RHCSA exam, knowing **how to get help quickly** is extremely valuable
 
 ---
 
-### 🔍 Related Topics to Explore Next
-
-* Shell navigation and history management (`history`, `!!`, `!<number>`, `Ctrl+r`)
-* Environment variables (`PATH`, `MANPATH`)
-* Package management (`dnf`, `rpm`, docs directory structure)
-
----
-
 ### 📘 Useful Man Pages
 
 * `man man` – learn how to read man pages effectively
