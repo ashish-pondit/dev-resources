@@ -4,6 +4,14 @@ During the RHCSA exam, knowing **how to get help quickly** is extremely valuable
 
 ---
 
+> **Note:** If `whatis` or `apropos` don’t show results, it may be because the manual database hasn’t been built. Run the following to update it:
+>
+    ```bash
+    mandb
+    ```
+>
+> This command rebuilds the database that `whatis` and `apropos` depend on so they work correctly.
+
 ## 1. `man` (Manual Pages)
 
 * Displays detailed documentation for most commands.
@@ -12,6 +20,7 @@ During the RHCSA exam, knowing **how to get help quickly** is extremely valuable
   ```bash
   man ls
   ```
+
 * **Tip:** Use `/` to search inside the man page and `n` to move to the next result.
 * **Example:**
 
@@ -20,6 +29,33 @@ During the RHCSA exam, knowing **how to get help quickly** is extremely valuable
   ```
 
   → Shows all options for creating a new user.
+
+
+### Understanding Man Page Sections
+
+The manual information is split into **nine sections** for organization and clarity; different sections serve different purposes:
+
+1. **General commands** (1) – User commands and programs
+2. **System calls** (2) – Functions provided by the kernel
+3. **Library functions** (3) – Standard C library functions
+4. **Special files / devices** (4) – Device files in `/dev`
+5. **File formats and conventions** (5) – Configuration and data file formats
+6. **Games and screensavers** (6)
+7. **Miscellaneous** (7) – Conventions, protocols, macro packages
+8. **System administration commands** (8) – Admin commands, often requiring root
+9. **Kernel routines** (9) – Kernel internal functions
+
+**Example:** The `passwd` name exists both as a command and as a config file in `/etc/passwd`. Searching the man pages can show results for both. If you want the `passwd` command, you look in section 1; if you want the config file, you look in section 5.
+
+```bash
+man 1 passwd
+```
+
+To see a configuration file format (like `/etc/passwd`) in section 5:
+
+```bash
+man 5 passwd
+```
 
 ---
 
@@ -31,6 +67,7 @@ During the RHCSA exam, knowing **how to get help quickly** is extremely valuable
   ```bash
   ls --help
   ```
+
 * **When to use:** Quick reference when you forget an option but don’t need full documentation.
 
 ---
@@ -49,6 +86,7 @@ During the RHCSA exam, knowing **how to get help quickly** is extremely valuable
   ```bash
   less /usr/share/doc/openssh/README
   ```
+
 * **Tip:** Use this when `man` pages are unavailable or incomplete.
 
 ---
@@ -101,6 +139,7 @@ During the RHCSA exam, knowing **how to get help quickly** is extremely valuable
   ```bash
   info coreutils 'ls invocation'
   ```
+
 * Often more detailed than `man` pages.
 
 ---
@@ -112,6 +151,7 @@ During the RHCSA exam, knowing **how to get help quickly** is extremely valuable
   ```bash
   history
   ```
+
 * **Search previous commands interactively:**
   Press `Ctrl + r`, then type part of a previous command.
 
@@ -138,9 +178,3 @@ During the RHCSA exam, knowing **how to get help quickly** is extremely valuable
 * During the exam, **you are allowed to use `man`, `--help`, and `/usr/share/doc`**.
 
 ---
-
-### 📘 Useful Man Pages
-
-* `man man` – learn how to read man pages effectively
-* `man 1 intro` – introduction to user commands
-* `man 5 intro` – introduction to file formats and conventions
